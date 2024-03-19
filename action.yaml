@@ -1,0 +1,30 @@
+name: 'Purge Cloudflare Cache'
+description: 'This action purges the Cloudflare cache for a specified zone, using either a global API key or an API token.'
+author: jeffersonlmartins
+inputs:
+  CLOUDFLARE_EMAIL:
+    description: 'The email address associated with your Cloudflare account. Required if using a global API key.'
+    required: false
+  CLOUDFLARE_KEY:
+    description: 'Your Cloudflare Global API Key. Required if not using an API token.'
+    required: false
+  CLOUDFLARE_TOKEN:
+    description: 'Your Cloudflare API Token. Required if not using a global API key.'
+    required: false
+  CLOUDFLARE_ZONE:
+    description: 'The Zone ID of the Cloudflare zone you want to purge the cache for.'
+    required: true
+  PURGE_URLS:
+    description: 'A JSON array of URLs to purge from the cache. Purges the entire cache if not specified.'
+    required: false
+    default: ''
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    CLOUDFLARE_EMAIL: ${{ inputs.CLOUDFLARE_EMAIL }}
+    CLOUDFLARE_KEY: ${{ inputs.CLOUDFLARE_KEY }}
+    CLOUDFLARE_TOKEN: ${{ inputs.CLOUDFLARE_TOKEN }}
+    CLOUDFLARE_ZONE: ${{ inputs.CLOUDFLARE_ZONE }}
+    PURGE_URLS: ${{ inputs.PURGE_URLS }}
